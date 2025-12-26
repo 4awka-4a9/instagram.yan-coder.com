@@ -37,14 +37,14 @@ body {
     position: relative;
     min-width: 46rem;
     height: 61.8rem;
-    background: url(/instagram_clone/images/home-phone.png) center no-repeat;
+    background: url(../images/home-phone.png) center no-repeat;
     block-size: 100% 100%;
 }
 
 .col-1 .heroImg {
     width: 55%;
     height: 53rem;
-    background: url(/instagram_clone/images/1.png) center no-repeat;
+    background: url(../images/1.png) center no-repeat;
     block-size: 100% 100% ;
     position: absolute;
     top: 2.5rem;

@@ -21,7 +21,7 @@
                 <form action="">
 
                     <div class="siteLogoContainer">
-                        <img src="/instagram_clone/images/logo/instagram.png" alt="Instagram Logo">
+                        <img src="images/logo/instagram.png" alt="Instagram Logo">
                     </div>
 
                     <input type="email" placeholder="Email" class="form--input" name="email">
