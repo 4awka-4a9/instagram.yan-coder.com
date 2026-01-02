@@ -1,5 +1,6 @@
 <?php
 
+    require_once "core/init.php";
     $title = "Login | Instagram";
     $keywords = "Instagram, Share and capture world's moments, share, capture, share,home";
     require "shared/header.php";
@@ -18,7 +19,7 @@
 
             <article class="col-2">
 
-                <form action="">
+                <form action="<?= h($_SERVER['PHP_SELF']); ?>" method="POST" action="" class="form">
 
                     <div class="siteLogoContainer">
                         <img src="images/logo/instagram.png" alt="Instagram Logo">

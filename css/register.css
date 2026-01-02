@@ -168,3 +168,13 @@ form .button:hover {
     font-size: 1.7rem;
 
 }
+
+.form_errors {
+    font-size: 15px;
+    color: #e68183;
+}
+
+.form_errors li {
+    width: 560px;
+    padding: 4px;
+}

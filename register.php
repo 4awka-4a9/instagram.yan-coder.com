@@ -1,57 +1,121 @@
 <?php
 
-    $title = "Register | Instagram";
-    $keywords = "Instagram, Share and capture world's moments, share, capture, share,home";
-    require "shared/header.php";
+require_once "core/init.php";
+
+if (Input::exists()) {
+
+    if (isset($_POST['submitButton'])) {
+
+        $form_errors = array();
+        $required_fields = array("email", "password", "username", "full_name");
+
+        $form_errors = array_merge($form_errors, check_empty_fields($required_fields));
+
+        $fields_to_check_length = array("full_name" => 3, "username" => 3, "password" => 6);
+        $form_errors = array_merge($form_errors, check_min_length($fields_to_check_length));
+
+        $form_errors = array_merge($form_errors, check_email($_POST));
+
+        $rules = [
+            'email' => array('unique' => 'users'),
+            'username' => array('unique' => 'users'),
+            'password' => array('max' => 30),
+        ];
+
+        $account->check($_POST, $rules);
+
+        if ($account -> passed()) {
+
+            if (empty($form_errors)) {
+
+                $username = escape($_POST['username']);
+                $fullName = escape($_POST['fullName']);
+                $email = escape($_POST['email']);
+                $password = escape($_POST['password']);
+
+                $account -> register_user($username, $fullName, $email, $password);
+
+            }
+
+        }
+        else {
+            $form_errors = array_merge($form_errors, $account -> errors());
+        }
+
+    }
+
+    if (empty($form_errors)) {
+
+    }
+
+}
+
+$title = "Register | Instagram";
+$keywords = "Instagram, Share and capture world's moments, share, capture, share,home";
+require "shared/header.php";
 
 ?>
 
 <section class="pageContainer">
 
-        <main class="row">
+    <main class="row">
 
-            <div class="col-1">
-                <div class="heroImg">
+        <div class="col-1">
+            <div class="heroImg">
 
-                </div>
             </div>
+        </div>
 
-            <article class="col-2">
+        <article class="col-2">
 
-                <form action="">
+            <?php
 
-                    <div class="siteLogoContainer">
-                        <img src="images/logo/instagram.png" alt="Instagram Logo">
-                    </div>
+            if (!empty($form_errors)) {
+                echo show_errors($form_errors);
+            }
 
-                    <input type="email" placeholder="Email" class="form--input" name="email">
-                    <input type="text" placeholder="Full Name" class="form--input" name="full_name">
-                    <input type="text" placeholder="Username" class="form--input" name="username">
+            ?>
 
-                    <div class="passwordContainer">
-                        <input type="password" placeholder="Password" class="form--input" name="password" id="password">
-                        <span class="show_hide_text cursor-pointer" id="show_hide_password">Show</span>
-                    </div>
+            <form action="<?= h($_SERVER['PHP_SELF']); ?>" method="POST" class="form">
 
-                    <button class="button cursor-pointer" type="submitButton">Register</button>
+                <div class="siteLogoContainer">
+                    <img src="images/logo/instagram.png" alt="Instagram Logo">
+                </div>
 
-                    <span style="font-size: 15px;">By signing up, you agree to our Terms, Privacy Policy and Cookies Policy</span>
+                <input type="email" placeholder="Email" class="form--input" name="email" autocomplete="off"
+                    value="<?= escape(Input::get('email')); ?>">
+                <input type="text" placeholder="Full Name" class="form--input" name="full_name" autocomplete="off"
+                    value="<?= escape(Input::get('full_name')); ?>">
+                <input type="text" placeholder="Username" class="form--input" name="username" autocomplete="off"
+                    value="<?= escape(Input::get('username')); ?>">
 
-                </form>
+                <div class="passwordContainer">
+                    <input type="password" placeholder="Password" class="form--input" name="password" id="password"
+                        autocomplete="off">
+                    <span class="show_hide_text cursor-pointer" id="show_hide_password">Show</span>
+                </div>
 
-                <footer class="form--footer">
+                <button class="button cursor-pointer" type="submitButton" name="submitButton">Register</button>
 
-                    Have an account? <a href="login.php">Log In</a>
+                <span style="font-size: 15px;">By signing up, you agree to our Terms, Privacy Policy and Cookies
+                    Policy</span>
 
-                </footer>
+            </form>
 
-            </article>
+            <footer class="form--footer">
 
-        </main>
+                Have an account? <a href="login.php">Log In</a>
 
-    </section>
+            </footer>
 
-    <script src="js/common.js"></script>
+        </article>
+
+    </main>
+
+</section>
+
+<script src="js/common.js"></script>
 
 </body>
+
 </html>
