@@ -2,16 +2,20 @@
 
 require_once "core/init.php";
 
+if (loggedIn()) {
+    Redirect::to('index.php');
+}
+
 if (Input::exists()) {
 
     if (isset($_POST['submitButton'])) {
 
         $form_errors = array();
-        $required_fields = array("email", "password", "username", "full_name");
+        $required_fields = array("email", "password", "username", "fullName");
 
         $form_errors = array_merge($form_errors, check_empty_fields($required_fields));
 
-        $fields_to_check_length = array("full_name" => 3, "username" => 3, "password" => 6);
+        $fields_to_check_length = array("fullName" => 3, "username" => 3, "password" => 6);
         $form_errors = array_merge($form_errors, check_min_length($fields_to_check_length));
 
         $form_errors = array_merge($form_errors, check_email($_POST));
@@ -33,7 +37,16 @@ if (Input::exists()) {
                 $email = escape($_POST['email']);
                 $password = escape($_POST['password']);
 
-                $account -> register_user($username, $fullName, $email, $password);
+                $user_id = $account -> register_user($username, $fullName, $email, $password);
+
+                if ($user_id) {
+
+                    session_regenerate_id();
+                    $_SESSION['user_id'] = $user_id;
+                    
+                    Redirect::to(url_for('index.php'));
+
+                }
 
             }
 
@@ -84,8 +97,8 @@ require "shared/header.php";
 
                 <input type="email" placeholder="Email" class="form--input" name="email" autocomplete="off"
                     value="<?= escape(Input::get('email')); ?>">
-                <input type="text" placeholder="Full Name" class="form--input" name="full_name" autocomplete="off"
-                    value="<?= escape(Input::get('full_name')); ?>">
+                <input type="text" placeholder="Full Name" class="form--input" name="fullName" autocomplete="off"
+                    value="<?= escape(Input::get('fullName')); ?>">
                 <input type="text" placeholder="Username" class="form--input" name="username" autocomplete="off"
                     value="<?= escape(Input::get('username')); ?>">
 

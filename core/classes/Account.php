@@ -20,6 +20,17 @@ class Account
         $browser = $this -> getBrowser();
 
         $stmt = $this -> pdo -> prepare("INSERT INTO users (username, fullName, password, email, pri_ip, pri_os, pri_browser) VALUES (:username, :fullName, :password, :email, :pri_ip, :pri_os, :pri_browser)");
+        $stmt -> bindParam(':username', $username, PDO::PARAM_STR);
+        $stmt -> bindParam(':fullName', $fullName, PDO::PARAM_STR);
+        $stmt -> bindParam(':password', $encryptedPassword, PDO::PARAM_STR);
+        $stmt -> bindParam(':email', $email, PDO::PARAM_STR);
+        $stmt -> bindParam(':pri_ip', $ip, PDO::PARAM_STR);
+        $stmt -> bindParam(':pri_os', $os, PDO::PARAM_STR);
+        $stmt -> bindParam(':pri_browser', $browser, PDO::PARAM_STR);
+
+        $stmt -> execute();
+
+        return $this -> pdo -> lastInsertId();
 
     }
 

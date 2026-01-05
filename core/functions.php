@@ -4,6 +4,21 @@ function h($string = "") {
     return htmlspecialchars($string);
 }
 
+function url_for($script) {
+    return WWW_ROOT . $script;
+}
+
+function loggedIn() {
+
+    if (isset($_SESSION['user_id'])) {
+        return true;
+    }
+    else {
+        return false;
+    }
+
+}
+
 function escape($string) {
     return htmlspecialchars("$string", ENT_QUOTES);
 }
@@ -51,7 +66,7 @@ function check_email($data) {
 
             $key = filter_var($key, FILTER_SANITIZE_EMAIL);
 
-            if (filter_var($_POST[$key], FILTER_VALIDATE_EMAIL)) {
+            if (!filter_var($_POST[$key], FILTER_VALIDATE_EMAIL)) {
                 $form_errors[] = $key . " is not a valid email address.";
             }
 
