@@ -12,33 +12,75 @@ class Account
         $this->pdo = Database::connect();
     }
 
-    public function register_user($username, $fullName, $email, $password) {
+    public function register_user($username, $fullName, $email, $password)
+    {
 
-        $encryptedPassword = $this -> hash_password($password);
-        $ip = $this -> getIP();
-        $os = $this -> getOS();
-        $browser = $this -> getBrowser();
+        $encryptedPassword = $this->hash_password($password);
+        $ip = $this->getIP();
+        $os = $this->getOS();
+        $browser = $this->getBrowser();
 
-        $stmt = $this -> pdo -> prepare("INSERT INTO users (username, fullName, password, email, pri_ip, pri_os, pri_browser) VALUES (:username, :fullName, :password, :email, :pri_ip, :pri_os, :pri_browser)");
-        $stmt -> bindParam(':username', $username, PDO::PARAM_STR);
-        $stmt -> bindParam(':fullName', $fullName, PDO::PARAM_STR);
-        $stmt -> bindParam(':password', $encryptedPassword, PDO::PARAM_STR);
-        $stmt -> bindParam(':email', $email, PDO::PARAM_STR);
-        $stmt -> bindParam(':pri_ip', $ip, PDO::PARAM_STR);
-        $stmt -> bindParam(':pri_os', $os, PDO::PARAM_STR);
-        $stmt -> bindParam(':pri_browser', $browser, PDO::PARAM_STR);
+        $stmt = $this->pdo->prepare("INSERT INTO users (username, fullName, password, email, pri_ip, pri_os, pri_browser) VALUES (:username, :fullName, :password, :email, :pri_ip, :pri_os, :pri_browser)");
+        $stmt->bindParam(':username', $username, PDO::PARAM_STR);
+        $stmt->bindParam(':fullName', $fullName, PDO::PARAM_STR);
+        $stmt->bindParam(':password', $encryptedPassword, PDO::PARAM_STR);
+        $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+        $stmt->bindParam(':pri_ip', $ip, PDO::PARAM_STR);
+        $stmt->bindParam(':pri_os', $os, PDO::PARAM_STR);
+        $stmt->bindParam(':pri_browser', $browser, PDO::PARAM_STR);
 
-        $stmt -> execute();
+        $stmt->execute();
 
-        return $this -> pdo -> lastInsertId();
+        return $this->pdo->lastInsertId();
 
     }
 
-    public function hash_password($password) {
+    public function login_user($email_username, $password)
+    {
+
+        if (!empty($email_username) && !empty($password)) {
+
+            $stmt = $this->pdo->prepare("SELECT * FROM users WHERE email = :username OR username = :username");
+            $stmt->bindParam(':username', $email_username, PDO::PARAM_STR);
+            $stmt->execute();
+            $row = $stmt->fetch(PDO::FETCH_OBJ);
+
+            if ($stmt->rowCount() != 0) {
+
+                if (password_verify($password, $row->password)) {
+
+                    if (empty($this->errors())) {
+
+                        $this->passed = true;
+                        return $row->user_id;
+
+                    }
+
+                } else {
+
+                    $this->addError("Username and Password Incorrect");
+                    return false;
+
+                }
+
+            } else {
+
+                $this->addError("Username and Passord Incorrect");
+                return false;
+
+            }
+
+        }
+
+    }
+
+    public function hash_password($password)
+    {
         return password_hash($password, PASSWORD_DEFAULT);
     }
 
-    public function getOS() {
+    public function getOS()
+    {
 
         $user_agent = $_SERVER['HTTP_USER_AGENT'];
         $os_platform = "Unknown OS Platform";
@@ -80,7 +122,8 @@ class Account
 
     }
 
-    public function getBrowser() {
+    public function getBrowser()
+    {
 
         $user_agent = $_SERVER['HTTP_USER_AGENT'];
         $browser = "Unknown Browser";
@@ -109,15 +152,14 @@ class Account
 
     }
 
-    public function getIP() {
+    public function getIP()
+    {
 
         if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
             $ip_add = $_SERVER['HTTP_CLIENT_IP'];
-        }
-        elseif (!empty($_SERVER['HTTP_X_FORWARDED'])) {
+        } elseif (!empty($_SERVER['HTTP_X_FORWARDED'])) {
             $ip_add = $_SERVER['HTTP_X_FORWARDED'];
-        }
-        else {
+        } else {
             $ip_add = $_SERVER['REMOTE_ADDR'];
         }
 
@@ -148,8 +190,8 @@ class Account
 
                         case 'unique':
 
-                            if ($this -> userExists($item, $value)) {
-                                $this -> addError("{$item} already exists.");
+                            if ($this->userExists($item, $value)) {
+                                $this->addError("{$item} already exists.");
                             }
 
                             break;
@@ -168,30 +210,33 @@ class Account
 
     }
 
-    private function userExists($item, $value) {
+    private function userExists($item, $value)
+    {
 
-        $stmt = $this -> pdo -> prepare("SELECT * FROM users WHERE $item = :$item");
-        $stmt -> bindParam(":$item", $value, PDO::PARAM_STR);
-        $stmt -> execute();
-        $stmt -> rowCount();
+        $stmt = $this->pdo->prepare("SELECT * FROM users WHERE $item = :$item");
+        $stmt->bindParam(":$item", $value, PDO::PARAM_STR);
+        $stmt->execute();
+        $stmt->rowCount();
 
-        if ($stmt -> rowCount() > 0) {
+        if ($stmt->rowCount() > 0) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
 
     }
 
-    public function addError($errors) {
-        $this -> errors[] = $errors;
+    public function addError($errors)
+    {
+        $this->errors[] = $errors;
     }
-    public function errors() {
-        return $this -> errors;
+    public function errors()
+    {
+        return $this->errors;
     }
-    public function passed() {
-        return $this -> passed;
+    public function passed()
+    {
+        return $this->passed;
     }
 
 }
