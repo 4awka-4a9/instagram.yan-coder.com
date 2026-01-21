@@ -91,3 +91,14 @@ function show_errors($form_errors_array) {
     return $errors;
 
 }
+
+function log_out_user() {
+
+    unset($_SESSION['user_id']);
+    $_SESSION = array();
+
+    session_destroy();
+
+    return true;
+
+}

@@ -1,6 +1,8 @@
 const getId = (id) => document.getElementById(id);
 const getSl = (selector) => document.querySelector(selector);
 
+const BASE_URL = "httpp://localhost/instagram/core/ajax/";
+
 const password = getId("password");
 const show_hide_password = getId("show_hide_password");
 
@@ -50,3 +52,35 @@ if (password) {
 
 }
 
+if (globalHeader) {
+
+    profileButton.addEventListener("click", function() {
+        (modal.style.display === "none" ? modal.style.display = "block" : modal.style.display = "none")
+    });
+
+    $(function(){
+        $("#main-search").keyup(function(event) {
+
+            const searchValue = $(this).val().trim();
+            const resultContainer = $(".search-result");
+            $.post(
+
+                BASE_URL + "search.php",
+                {
+                    search:searchValue
+                },
+                function(data){
+
+                    resultContainer.html(data);
+                    if (searchValue === "") {
+                        resultContainer.html("");
+                    }
+
+                }
+
+            );
+
+        })
+    })
+
+}

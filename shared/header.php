@@ -20,5 +20,6 @@ $desc = "Instagram lets you capture, follow, like and share world's moments in a
     <meta name="author" content="yan-coder">
     <link rel="shortcut icon" href="images/favicon/instagram.ico" type="image/x-icon">
     <link rel="stylesheet" href="css/register.css">
+    <link rel="stylesheet" href="<?= url_for('css/master.css'); ?>">
 </head>
 <body>
