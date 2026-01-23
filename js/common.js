@@ -1,7 +1,7 @@
 const getId = (id) => document.getElementById(id);
 const getSl = (selector) => document.querySelector(selector);
 
-const BASE_URL = "httpp://localhost/instagram/core/ajax/";
+const BASE_URL = "http://localhost/instagram.yan-coder.com/core/ajax/";
 
 const password = getId("password");
 const show_hide_password = getId("show_hide_password");
@@ -14,6 +14,11 @@ const IMAGE_DATA = [
     "images/3.png",
     "images/4.png",
 ];
+
+const globalHeader = getSl(".global-header");
+const modal = getSl(".menu-container");
+const profileButton = getSl(".profile--container");
+const image = getId("imgPreview");
 
 if (password) {
 
@@ -73,7 +78,7 @@ if (globalHeader) {
 
                     resultContainer.html(data);
                     if (searchValue === "") {
-                        resultContainer.html("");
+                        resultContainer.html(""); 
                     }
 
                 }
