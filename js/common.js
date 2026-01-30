@@ -83,7 +83,7 @@ if (globalHeader) {
 
                 }
 
-            );
+            )
 
         })
     })

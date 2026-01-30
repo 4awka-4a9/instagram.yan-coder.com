@@ -19,5 +19,6 @@ spl_autoload_register(function ($className) {
 
 $account = new Account();
 $LoadFromUser = new User();
+$LoadFromFollow = new Follow();
 
 Database::connect();

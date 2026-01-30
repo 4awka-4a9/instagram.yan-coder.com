@@ -1,7 +1,7 @@
 <?php
 
 require_once "core/init.php";
-require_once "register_handlers";
+require_once "register_handlers.php";
 require "shared/header.php";
 
 ?>
