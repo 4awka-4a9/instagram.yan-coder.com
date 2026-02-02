@@ -1,35 +1,39 @@
 <?php
 
-function h($string = "") {
+function h($string = "")
+{
     return htmlspecialchars($string);
 }
 
-function url_for($script) {
+function url_for($script)
+{
     return WWW_ROOT . $script;
 }
 
-function loggedIn() {
+function loggedIn()
+{
 
     if (isset($_SESSION['user_id'])) {
         return true;
-    }
-    else {
+    } else {
         return false;
     }
 
 }
 
-function escape($string) {
+function escape($string)
+{
     return htmlspecialchars("$string", ENT_QUOTES);
 }
 
-function check_empty_fields($required_fields) {
-    
+function check_empty_fields($required_fields)
+{
+
     $form_errors = array();
 
-    foreach($required_fields as $name_of_field) {
-        
-        if (!isset($_POST[$name_of_field]) ||  $_POST[$name_of_field] == NULL) {
+    foreach ($required_fields as $name_of_field) {
+
+        if (!isset($_POST[$name_of_field]) || $_POST[$name_of_field] == NULL) {
             $form_errors[] = $name_of_field . " is required field.";
         }
 
@@ -39,11 +43,12 @@ function check_empty_fields($required_fields) {
 
 }
 
-function check_min_length($fields_to_check_length) {
-    
+function check_min_length($fields_to_check_length)
+{
+
     $form_errors = array();
 
-    foreach($fields_to_check_length as $name_of_field => $minimum_lenght) {
+    foreach ($fields_to_check_length as $name_of_field => $minimum_lenght) {
 
         if (strlen(trim($_POST[$name_of_field])) < $minimum_lenght) {
             $form_errors[] = $name_of_field . " is too short, must be {$minimum_lenght} characters long.";
@@ -55,7 +60,8 @@ function check_min_length($fields_to_check_length) {
 
 }
 
-function check_email($data) {
+function check_email($data)
+{
 
     $form_errors = array();
     $key = "email";
@@ -78,11 +84,12 @@ function check_email($data) {
 
 }
 
-function show_errors($form_errors_array) {
+function show_errors($form_errors_array)
+{
 
     $errors = "<ul class='form_errors'>";
 
-    foreach($form_errors_array as $the_error) {
+    foreach ($form_errors_array as $the_error) {
         $errors .= "<li>{$the_error}</li>";
     }
 
@@ -92,7 +99,8 @@ function show_errors($form_errors_array) {
 
 }
 
-function log_out_user() {
+function log_out_user()
+{
 
     unset($_SESSION['user_id']);
     $_SESSION = array();
@@ -100,5 +108,17 @@ function log_out_user() {
     session_destroy();
 
     return true;
+
+}
+
+function nameShortener($name, $limit)
+{
+
+    if (strlen($name) >= $limit) {
+        return substr($name, 0, intval($limit) - 2) . "..";
+    }
+    else if (strlen($name) < $limit) {
+        return $name;
+    }
 
 }

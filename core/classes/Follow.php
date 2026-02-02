@@ -4,6 +4,7 @@ class Follow
 {
 
     private $pdo;
+    private $user;
 
     public function __construct()
     {
@@ -39,11 +40,11 @@ class Follow
                         <div class="side-menu__suggestion-info">
 
                             <a href="' . url_for('profile/' . $user->username) . '" target="_blank"
-                                clas="side-menu__user-avatar">
+                                class="side-menu__user-avatar">
                                 ' . $user->username . '
                             </a> 
 
-                            <span></span>
+                            <span>'.$this->peopleMightKnow($user->user_id).'</span>
 
                         </div>
 
@@ -100,6 +101,83 @@ class Follow
 
             $stmt = $this->pdo->prepare("DELETE FROM follow WHERE sender  = :sender AND receiver = :receiver LIMIT 1");
             $stmt->execute(array(":sender" => $user_id, ":receiver" => $otherid));
+
+        }
+
+    }
+
+    public function peopleMightKnow($otherid)
+    {
+
+        if (isset($_SESSION['user_id'])) {
+            
+            $user_id = $_SESSION['user_id'];
+            $this->user = new User();
+            $first = array();
+            $second = array();
+            $third = array();
+            $fourth = array();
+            $final = array();
+
+            $stmt = $this->pdo->prepare("SELECT sender FROM follow WHERE receiver = :otherid");
+            $stmt->execute(array(":otherid" => $otherid));
+
+            while($row = $stmt->fetch(PDO::FETCH_OBJ)) {
+
+                $first[] = $row->sender;
+
+            }
+
+            $mine = $this->pdo->prepare("SELECT receiver FROM follow WHERE receiver = :sender");
+            $mine->execute(array(":sender" => $user_id));
+
+            while($row = $mine->fetch(PDO::FETCH_OBJ)) {
+
+                $second[] = $row->receiver;
+
+            }
+
+            $other = $this->pdo->prepare("SELECT sender FROM follow WHERE receiver = :me");
+            $other->execute(array(":me" => $otherid));
+
+            while($row = $other->fetch(PDO::FETCH_OBJ)) {
+
+                $third[] = $row->sender;
+
+            }
+
+            foreach($first as $key => $value) {
+
+                if (in_array($value, $second)) {
+                    $final[] = $value;
+                }
+
+            }
+
+            $other = array_reverse($final);
+
+            foreach($other as $key => $value) {
+                
+                array_unshift($fourth, $value);
+
+            }
+
+            $count = count($final);
+
+            if ($count == 0) {
+
+                if (count($third) != 0) {
+
+                    if ($third[0] == $other) {
+                        return("Follows you");
+                    }
+
+                }
+
+            }
+            else if ($count == 1) {
+                return "Followed by ".nameShortener($this->user->getDetails($fourth[0], "username"), 20);
+            }
 
         }
 
