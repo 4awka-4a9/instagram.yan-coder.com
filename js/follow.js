@@ -14,7 +14,7 @@ $(function () {
                     followID: followID,
                 },
                 function (data) {
-
+                    
                     $buttom.removeClass('follow').addClass('unfollow')
                     $buttom.text('Following');
 

@@ -39,8 +39,7 @@ class Follow
 
                         <div class="side-menu__suggestion-info">
 
-                            <a href="' . url_for('profile/' . $user->username) . '" target="_blank"
-                                class="side-menu__user-avatar">
+                            <a href="' . url_for('profile/' . $user->username) . '" target="_blank">
                                 ' . $user->username . '
                             </a> 
 
