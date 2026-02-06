@@ -50,8 +50,8 @@ require "shared/header.php";
                                 </svg>
                             </div>
 
-                            <a href="<?php echo url_for('create/story'); ?>" class="story__pictrue plus_icon">
-                                <img src="<?php echo url_for('public/images/story.png'); ?>" alt="">
+                            <a href="<?php echo url_for('create/story'); ?>" class="story__picture plus_icon">
+                                <img src="<?php echo url_for('images/story.png'); ?>" alt="">
                             </a>
 
                         </div>
@@ -62,7 +62,7 @@ require "shared/header.php";
 
                     <a href="<?php echo url_for('stories/' . $user->username . '/' . $user->user_id); ?>"
                         class="story story--has-story">
-                        <div calss="story__avatar">
+                        <div class="story__avatar">
                             <div class="story__border">
                                 <svg width="64" height="64" xmlns="http://www.w3.org/2000/svg">
                                     <circle r="31" cy="32" cx="32" />
@@ -200,3 +200,4 @@ require "shared/header.php";
 <script src="js/jquery.js"></script>
 <script src="js/common.js?v=2"></script>
 <script src="js/follow.js?v=2"></script>
+<script src="js/story.js?v=2"></script>
