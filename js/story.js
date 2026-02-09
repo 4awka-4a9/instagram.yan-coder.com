@@ -18,3 +18,31 @@ $("#imageUpload").change(function() {
     }
 
 })
+
+$(document).on("click", "#share-btn", function(event) {
+
+    let storyData = document.querySelector("#imageUpload").files[0];
+    let userid = $(".profile-user-id").data("follow");
+
+    if (storyData != "") {
+
+        let formData = new FormData();
+
+        formData.append("userid", userid);
+        formData.append('status', storyData);
+
+        $.ajax({
+            url:"http://localhost/instagram.yan-coder.com/core/ajax/status.png",
+            type:"POST",
+            cache:false,
+            processData:false,
+            data:formData,
+            contentType:false,
+            success:(data) => {
+                
+            }
+        })
+
+    }
+
+})
