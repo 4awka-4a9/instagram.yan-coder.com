@@ -39,10 +39,82 @@ $(document).on("click", "#share-btn", function(event) {
             data:formData,
             contentType:false,
             success:(data) => {
-                
+
+                const response = JSON.parse(data);
+                window.location.href = 'https://localhost/insatgram.yan-coder.com/stories/' + response.username + "/" + response.userid;
+
             }
         })
 
     }
 
+})
+
+$(document).on("click",".text-container",function(){
+  $(".right-part").addClass("hidden");
+  $(".story-preview-container").removeClass("hidden");
+  $(".story-wrapper").removeClass("hidden");
+  $(".story-body").removeClass("hidden");
+})
+
+$(document).on("click",".pick_font_btnn",function(){
+  $(".font_list").toggle();
+})
+
+$("#textInput").keyup(function(event){
+  let textValue=$(event.target).val().trim();
+  let textElement=document.querySelector(".p-rect-text");
+  if(textValue != ""){
+    $(".p-rect-text").css({
+      'color':'#fff'
+    });
+    textElement.innerText=textValue;
+  }else{
+    $(".p-rect-text").css({
+      'color':'rgba(255,255,255,0.5)'
+    });
+    textElement.innerText='START TYPING';
+  }
+})
+
+$(document).on("click",".bg_story_select",function(){
+  $(".bg_story_select").removeClass("bg_active");
+  var backgroundImage=$(this).addClass("bg_active").find('img').attr('src');
+  background=backgroundImage;
+  $(".p-rect").css('background-image','url('+backgroundImage+')');
+})
+
+$(document).on('click',"#clean_font",function(){
+  $(".p-rect-text").css('font-family','kanit');
+  font="Clean";
+  $(".font_name").html(font);
+  $(".font_list").hide();
+})
+
+$(document).on('click',"#bold_font",function(){
+  $(".p-rect-text").css('font-family','Bebas Neue');
+  font="Bold";
+  $(".font_name").html(font);
+  $(".font_list").hide();
+})
+
+$(document).on('click',"#simple_font",function(){
+  $(".p-rect-text").css('font-family','Segoe UI');
+  font="Simple";
+  $(".font_name").html(font);
+  $(".font_list").hide();
+})
+
+$(document).on('click',"#neon_font",function(){
+  $(".p-rect-text").css('font-family','Indie Flower');
+  font="Neon";
+  $(".font_name").html(font);
+  $(".font_list").hide();
+})
+
+$(document).on('click',"#italic_font",function(){
+  $(".p-rect-text").css('font-family','Roboto');
+  font="Italic";
+  $(".font_name").html(font);
+  $(".font_list").hide();
 })

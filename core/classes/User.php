@@ -88,7 +88,7 @@ class User
             }
 
             $folder = "media/stories/" . $userid . "/" . $this->generate_filename(15). ".jpg";
-            $file = $_SERVER['DOCUMENT_ROKT'] . "/instagram.yan-coder.com/" . $folder;
+            $file = $_SERVER['DOCUMENT_ROOT'] . "/instagram.yan-coder.com/" . $folder;
 
             if ($errors === 0) {
 
@@ -114,6 +114,31 @@ class User
 
         return $this->pdo->lastInsertId();
 
+    }
+
+    public function checkStoryExist($userid)
+    {
+        $stmt = $this->pdo->prepare('SELECT * from stories WHERE user_id=:userid AND createdAt >=now() - INTERVAL 1 DAY');
+        $stmt->bindParam(":userid", $userid, PDO::PARAM_INT);
+        $stmt->execute();
+        if ($stmt->rowCount() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function statusData($userid)
+    {
+        $stmt = $this->pdo->prepare('SELECT * from stories s LEFT JOIN users u ON s.user_id=u.user_id WHERE s.user_id=:userid AND createdAt >=now() - INTERVAL 1 DAY ORDER BY story_id DESC');
+        $stmt->bindParam(":userid", $userid, PDO::PARAM_INT);
+        $stmt->execute();
+        $statusData = $stmt->fetchAll(PDO::FETCH_OBJ);
+        if ($stmt->rowCount() > 0) {
+            foreach ($statusData as $user) {
+                echo '<img src="' . url_for($user->story_img) . '" alt="Story of ' . $user->fullName . '">';
+            }
+        }
     }
 
 }
