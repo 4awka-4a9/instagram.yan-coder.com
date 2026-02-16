@@ -22,7 +22,8 @@ $("#imageUpload").change(function() {
 $(document).on("click", "#share-btn", function(event) {
 
     let storyData = document.querySelector("#imageUpload").files[0];
-    let userid = $(".profile-user-id").data("follow");
+    let userid = $(".profile-user-id").data("userid");
+
 
     if (storyData != "") {
 
@@ -32,7 +33,7 @@ $(document).on("click", "#share-btn", function(event) {
         formData.append('status', storyData);
 
         $.ajax({
-            url:"http://localhost/instagram.yan-coder.com/core/ajax/status.png",
+            url:"http://localhost/instagram.yan-coder.com/core/ajax/status.php",
             type:"POST",
             cache:false,
             processData:false,
@@ -41,7 +42,7 @@ $(document).on("click", "#share-btn", function(event) {
             success:(data) => {
 
                 const response = JSON.parse(data);
-                window.location.href = 'https://localhost/insatgram.yan-coder.com/stories/' + response.username + "/" + response.userid;
+                window.location.href = 'http://localhost/instagram.yan-coder.com/stories/' + response.username + "/" + response.userid;
 
             }
         })

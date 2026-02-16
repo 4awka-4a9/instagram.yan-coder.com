@@ -68,7 +68,7 @@ class User
     public function uploadStory($file, $userid)
     {
 
-        $fileInfo = getimagesize($_FILES['tmp_name']);
+        $fileInfo = getimagesize($file['tmp_name']);
         $fileName = $file['name'];
         $fileTmp = $file['tmp_name'];
         $fileSize = $file['size'];
@@ -79,11 +79,11 @@ class User
 
         $allowed = array("image/png", "image/jpeg", "image/jpg", "image/webp");
 
-        if (in_array($fileInfo['mine'], $allowed)) {
+        if (in_array($fileInfo['mime'], $allowed)) {
 
             $path_directory = $_SERVER['DOCUMENT_ROOT'] . "/instagram.yan-coder.com/media/stories/" . $userid;
 
-            if (file_exists($path_directory) && !is_dir($path_directory)) {
+            if (!file_exists($path_directory)) {
                 mkdir($path_directory, 0777, true);
             }
 
