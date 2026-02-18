@@ -83,7 +83,7 @@ class User
 
             $path_directory = $_SERVER['DOCUMENT_ROOT'] . "/instagram.yan-coder.com/media/stories/" . $userid;
 
-            if (!file_exists($path_directory)) {
+            if (!file_exists($path_directory) && !is_dir($path_directory)) {
                 mkdir($path_directory, 0777, true);
             }
 
