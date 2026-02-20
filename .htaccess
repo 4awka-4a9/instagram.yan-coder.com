@@ -1,0 +1,25 @@
+RewriteEngine on
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+#For removing extension as Options +MultiViews not working with RewriteRule
+RewriteRule ^([a-zA-Z0-9_]+)$ $1.php [QSA,NC,L]
+
+RewriteRule ^profile/([a-zA-Z0-9._@\-]+)$ profile.php?username=$1 [QSA,NC,L]
+RewriteRule ^profile/ profile.php [QSA,NC,L]
+RewriteRule ^create/story/? create.php [QSA,NC,L]
+RewriteRule ^stories/([a-zA-Z0-9]+)/([0-9]+)/?$ story.php?storyId=$2
+
+ErrorDocument 404 /instagram.yan-coder.com/404.php
+
+#DirectoryIndex Options +Indexes
+
+<FilesMatch ".(htaccess)">
+  order allow,deny
+  deny from all
+</FilesMatch>
+
+#Options +MultiViews
+
+IndexIgnore *
