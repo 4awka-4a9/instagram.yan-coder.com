@@ -196,8 +196,8 @@ require "shared/header.php";
     </section>
 </main>
 
-<?php require_once "global.header.php"; ?>
+<?php include_once "shared/post_modal.php"; ?>
+
 <script src="js/jquery.js"></script>
 <script src="js/common.js?v=2"></script>
 <script src="js/follow.js?v=2"></script>
-<script src="js/story.js?v=2"></script>

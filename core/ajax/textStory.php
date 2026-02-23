@@ -47,14 +47,14 @@ if (Input::exists()) {
         $yy = $y - ($countLines * 50);
 
         //Add text to image
-        imagettftext($img, $font_size, $angle, $x, $yy, $color, $font, $text);
+        imagettftext($img, $font_size, $angle, (int) $x, (int) $yy, $color, $font, $text);
         $path_directory = $_SERVER['DOCUMENT_ROOT'] . "/instagram.yan-coder.com/stories/" . $userid . "/";
 
         if (!file_exists($path_directory) && !is_dir($path_directory)) {
             mkdir($path_directory, 0777, true);
         }
 
-        $path = $_SERVER['DOCUMENT_ROOT'] . "/instagram.yan-coder.com/stories/" . $userid . "/";
+        $path = $_SERVER['DOCUMENT_ROOT'] . "/instagram.yan-coder.com/media/stories/" . $userid . "/";
         $fileName = $LoadFromUser->generate_filename(15) . '.jpg';
         imagejpeg($img, $path . $fileName, 100);
         $img_path = "media/stories/" . $userid . "/" . $fileName;

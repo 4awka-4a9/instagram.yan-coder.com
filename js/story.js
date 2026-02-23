@@ -1,3 +1,6 @@
+let background = ""; 
+let font = "Clean";
+
 $("#imageUpload").change(function () {
 
   if (this.files && this.files[0]) {
