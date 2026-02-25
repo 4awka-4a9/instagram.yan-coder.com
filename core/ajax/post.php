@@ -1,5 +1,6 @@
 <?php
 require_once "../init.php";
+error_reporting(E_ALL & ~E_NOTICE & ~E_WARNING);
 if (Input::exists()) {
     if (!empty($_FILES['postImage'])) {
         $postImage = $_FILES['postImage'];

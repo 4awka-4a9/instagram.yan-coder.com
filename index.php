@@ -13,7 +13,7 @@ require "shared/header.php";
 
 ?>
 
-<div class="profile-user-id" data-userid="<?php echo $user->$user_id ?>" data-profileid="<?php echo $user->user_id ?>">
+<div class="profile-user-id" data-userid="<?php echo $user->user_id ?>" data-profileid="<?php echo $user->user_id ?>">
 </div>
 <?php require_once "global.header.php"; ?>
 
@@ -101,6 +101,9 @@ require "shared/header.php";
 
             </div>
         </div>
+        <section class="posts">
+            <?php $LoadFromPost->posts($user->user_id, 10); ?>
+        </section>
 
         <aside class="side-menu">
 

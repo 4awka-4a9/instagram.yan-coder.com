@@ -81,13 +81,51 @@ class User
 
         if (in_array($fileInfo['mime'], $allowed)) {
 
-            $path_directory = $_SERVER['DOCUMENT_ROOT'] . "/instagram.yan-coder.com/media/stories/" . $userid;
+            // $path_directory = $_SERVER['DOCUMENT_ROOT'] . "/instagram.yan-coder.com/media/stories/" . $userid;
+            $path_directory = dirname(__DIR__, 2) . "/media/posts/" . $userid;
 
             if (!file_exists($path_directory) && !is_dir($path_directory)) {
                 mkdir($path_directory, 0777, true);
             }
 
-            $folder = "media/stories/" . $userid . "/" . $this->generate_filename(15). ".jpg";
+            $folder = "media/stories/" . $userid . "/" . $this->generate_filename(15) . ".jpg";
+            // $file = $_SERVER['DOCUMENT_ROOT'] . "/instagram.yan-coder.com/" . $folder;
+            $file = dirname(__DIR__, 2) . "/" . $folder;
+
+            if ($errors === 0) {
+
+                move_uploaded_file($fileTmp, $file);
+                return $folder;
+
+            }
+
+        }
+
+    }
+
+    public function uploadPost($file, $userid)
+    {
+
+        $fileInfo = getimagesize($file['tmp_name']);
+        $fileName = $file['name'];
+        $fileTmp = $file['tmp_name'];
+        $fileSize = $file['size'];
+        $errors = $file['error'];
+
+        $ext = explode('.', $fileName);
+        $ext = strtolower(end($ext));
+
+        $allowed = array("image/png", "image/jpeg", "image/jpg", "image/webp");
+
+        if (in_array($fileInfo['mime'], $allowed)) {
+
+            $path_directory = $_SERVER['DOCUMENT_ROOT'] . "/instagram.yan-coder.com/media/posts/" . $userid;
+
+            if (!file_exists($path_directory) && !is_dir($path_directory)) {
+                mkdir($path_directory, 0777, true);
+            }
+
+            $folder = "media/posts/" . $userid . "/" . $this->generate_filename(15) . ".jpg";
             $file = $_SERVER['DOCUMENT_ROOT'] . "/instagram.yan-coder.com/" . $folder;
 
             if ($errors === 0) {
@@ -101,7 +139,8 @@ class User
 
     }
 
-    public function createStory($userid, $image) {
+    public function createStory($userid, $image)
+    {
 
         $datetime = date('Y-m-d  H:i:s');
 
@@ -109,6 +148,23 @@ class User
         $stmt->bindParam(':userid', $userid, PDO::PARAM_INT);
         $stmt->bindParam(':story', $image, PDO::PARAM_STR);
         $stmt->bindParam(':createdAt', $datetime);
+
+        $stmt->execute();
+
+        return $this->pdo->lastInsertId();
+
+    }
+
+    public function createPost($userid, $image, $post)
+    {
+
+        $datetime = date('Y-m-d  H:i:s');
+
+        $stmt = $this->pdo->prepare("INSERT INTO posts (postedBy, post, postImage, postedOn) VALUES (:userid, :post, :image, :postedOn)");
+        $stmt->bindParam(':userid', $userid, PDO::PARAM_INT);
+        $stmt->bindParam(':image', $image, PDO::PARAM_STR);
+        $stmt->bindParam(':post', $post);
+        $stmt->bindParam(':postedOn', $datetime);
 
         $stmt->execute();
 
