@@ -100,10 +100,10 @@ require "shared/header.php";
                 </button>
 
             </div>
+            <section class="posts">
+                <?php $LoadFromPost->posts($user->user_id, 10); ?>
+            </section>
         </div>
-        <section class="posts">
-            <?php $LoadFromPost->posts($user->user_id, 10); ?>
-        </section>
 
         <aside class="side-menu">
 
