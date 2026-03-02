@@ -204,3 +204,4 @@ require "shared/header.php";
 <script src="js/jquery.js"></script>
 <script src="js/common.js?v=2"></script>
 <script src="js/follow.js?v=2"></script>
+<script src="<?= url_for('js/like.js'); ?>"></script>
