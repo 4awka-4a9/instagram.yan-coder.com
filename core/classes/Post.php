@@ -245,6 +245,45 @@ class Post
     }
   }
 
+  public function deletePost($deleteID, $userid)
+  {
+    $session = $_SESSION['user_id'];
+    if ($session == $userid) {
+      $likequery = $this->pdo->prepare("DELETE FROM post_likes WHERE post_id=:post");
+      $likequery->execute(array(":post" => $deleteID));
+
+      $commentquery = $this->pdo->prepare("DELETE FROM comment WHERE commentOn=:post");
+      $commentquery->execute(array(":post" => $deleteID));
+
+      $imagequery = $this->pdo->prepare("SELECT postImage FROM posts WHERE post_id=:post");
+      $imagequery->execute(array(":post" => $deleteID));
+      if ($imagequery->rowCount() > 0) {
+        while ($imageRow = $imagequery->fetch(PDO::FETCH_OBJ)) {
+          $image = $imageRow->postImage;
+          if (file_exists("../../" . $image)) {
+            unlink("../../" . $image);
+          }
+
+          $deleteImage = $this->pdo->prepare("DELETE FROM posts WHERE post_id=:post");
+          $deleteImage->execute(array(":post" => $deleteID));
+        }
+      }
+    }
+  }
+
+  public function profilePosts($userid)
+  {
+    $query = $this->pdo->prepare("SELECT * FROM posts WHERE postedBy=:userid");
+    $query->bindParam(":userid", $userid);
+    $query->execute();
+    $posts = $query->fetchAll(PDO::FETCH_OBJ);
+
+    foreach ($posts as $post) {
+      echo '<img class="profile__post-img" src="' . url_for($post->postImage) . '"/>';
+    }
+  }
+
+
   public function timeAgoForPost($time_ago)
   {
     $time_ago = strtotime($time_ago) ? strtotime($time_ago) : $time_ago;

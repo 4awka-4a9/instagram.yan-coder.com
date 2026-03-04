@@ -43,7 +43,7 @@ class Follow
                                 ' . $user->username . '
                             </a> 
 
-                            <span>'.$this->peopleMightKnow($user->user_id).'</span>
+                            <span>' . $this->peopleMightKnow($user->user_id) . '</span>
 
                         </div>
 
@@ -105,11 +105,25 @@ class Follow
 
     }
 
+    public function getFollowers($profileid)
+    {
+        $stmt = $this->pdo->prepare("SELECT sender FROM follow WHERE  receiver=:receiver");
+        $stmt->execute(array(":receiver" => $profileid));
+        return $stmt->rowCount();
+    }
+
+    public function getFollowings($profileid)
+    {
+        $stmt = $this->pdo->prepare("SELECT receiver FROM follow WHERE  sender=:get");
+        $stmt->execute(array(":get" => $profileid));
+        return $stmt->rowCount();
+    }
+
     public function peopleMightKnow($otherid)
     {
 
         if (isset($_SESSION['user_id'])) {
-            
+
             $user_id = $_SESSION['user_id'];
             $this->user = new User();
             $first = array();
@@ -121,7 +135,7 @@ class Follow
             $stmt = $this->pdo->prepare("SELECT sender FROM follow WHERE receiver = :otherid");
             $stmt->execute(array(":otherid" => $otherid));
 
-            while($row = $stmt->fetch(PDO::FETCH_OBJ)) {
+            while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
 
                 $first[] = $row->sender;
 
@@ -130,7 +144,7 @@ class Follow
             $mine = $this->pdo->prepare("SELECT receiver FROM follow WHERE receiver = :sender");
             $mine->execute(array(":sender" => $user_id));
 
-            while($row = $mine->fetch(PDO::FETCH_OBJ)) {
+            while ($row = $mine->fetch(PDO::FETCH_OBJ)) {
 
                 $second[] = $row->receiver;
 
@@ -139,13 +153,13 @@ class Follow
             $other = $this->pdo->prepare("SELECT sender FROM follow WHERE receiver = :me");
             $other->execute(array(":me" => $otherid));
 
-            while($row = $other->fetch(PDO::FETCH_OBJ)) {
+            while ($row = $other->fetch(PDO::FETCH_OBJ)) {
 
                 $third[] = $row->sender;
 
             }
 
-            foreach($first as $key => $value) {
+            foreach ($first as $key => $value) {
 
                 if (in_array($value, $second)) {
                     $final[] = $value;
@@ -155,8 +169,8 @@ class Follow
 
             $other = array_reverse($final);
 
-            foreach($other as $key => $value) {
-                
+            foreach ($other as $key => $value) {
+
                 array_unshift($fourth, $value);
 
             }
@@ -168,14 +182,13 @@ class Follow
                 if (count($third) != 0) {
 
                     if ($third[0] == $other) {
-                        return("Follows you");
+                        return ("Follows you");
                     }
 
                 }
 
-            }
-            else if ($count == 1) {
-                return "Followed by ".nameShortener($this->user->getDetails($fourth[0], "username"), 20);
+            } else if ($count == 1) {
+                return "Followed by " . nameShortener($this->user->getDetails($fourth[0], "username"), 20);
             }
 
         }

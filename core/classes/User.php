@@ -24,6 +24,16 @@ class User
 
     }
 
+    public function getUserDataFromURL($profileId)
+    {
+
+        $stmt = $this->pdo->prepare("SELECT * FROM users WHERE user_id=:USER_ID");
+        $stmt->bindParam(":USER_ID", $profileId);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_OBJ);
+
+    }
+
     public function search($search)
     {
 
@@ -63,6 +73,15 @@ class User
 
         return $row->$what;
 
+    }
+
+    public function userIdByUsername($username)
+    {
+        $stmt = $this->pdo->prepare("SELECT user_id FROM users WHERE username=:username");
+        $stmt->bindParam(":username", $username);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_OBJ);
+        return $row->user_id;
     }
 
     public function uploadStory($file, $userid)
