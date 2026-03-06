@@ -32,7 +32,7 @@ $(document).on("click", "#share-btn", function (event) {
     formData.append("userid", userid);
     formData.append("status", storyData);
     $.ajax({
-      url: "http://localhost/instagram.yan-coder.com/core/ajax/status.php",
+      url: "/core/ajax/status.php",
       type: "POST",
       cache: false,
       processData: false,
@@ -40,19 +40,19 @@ $(document).on("click", "#share-btn", function (event) {
       contentType: false,
       success: (data) => {
        const response=JSON.parse(data);
-        window.location.href='http://localhost/instagram.yan-coder.com/stories/'+response.username+"/"+response.userid;
+        window.location.href='/stories/'+response.username+"/"+response.userid;
       },
     });
   }else{
     if(background !=""){
-      $.post("http://localhost/instagram.yan-coder.com/core/ajax/textStory.php",{
+      $.post("/core/ajax/textStory.php",{
         userid:userid,
         storyText:text,
         background:background,
         font:font
       },function(data){
         const response=JSON.parse(data);
-        window.location.href='http://localhost/instagram.yan-coder.com/stories/'+response.username+"/"+response.userid;
+        window.location.href='/stories/'+response.username+"/"+response.userid;
       })
     }
   }

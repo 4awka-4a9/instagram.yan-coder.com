@@ -112,7 +112,7 @@
                     <ul class="menu-bar">
 
                         <li class="menu_me_wrap">
-                            <a href="<?php echo url_for('profile.php'); ?>">
+                            <a href="<?php echo url_for('profile/' . $user->username); ?>">
 
                                 <svg aria-label="Profile" class="_ab6-" color="#262626" fill="#262626" height="16"
                                     role="img" viewBox="0 0 24 24" width="16">

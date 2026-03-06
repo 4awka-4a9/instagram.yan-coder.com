@@ -1,6 +1,6 @@
 const getId = (id) => document.getElementById(id);
 const getSl = (selector) => document.querySelector(selector);
-const BASE_URL = "http://localhost/instagram.yan-coder.com/core/ajax/";
+const BASE_URL = "/core/ajax/";
 let user_id=$(".profile-user-id").data("userid");
 
 const globalHeader = getSl(".global-header");
@@ -14,10 +14,10 @@ const show_hide_password = getId("show_hide_password");
 const imageElement = getSl(".heroImg");
 let slideIndex = 0;
 const IMAGE_DATA = [
-  "http://localhost/instagram.yan-coder.com/images/1.png",
-  "http://localhost/instagram.yan-coder.com/images/2.png",
-  "http://localhost/instagram.yan-coder.com/images/3.png",
-  "http://localhost/instagram.yan-coder.com/images/4.png",
+  "/images/1.png",
+  "/images/2.png",
+  "/images/3.png",
+  "/images/4.png",
 ];
 
 if (password) {

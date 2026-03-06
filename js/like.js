@@ -4,7 +4,7 @@ $(document).on("click",".like-button",function(){
     let parentElement=$(this).parent().siblings(".post__infos");
     let element=$(this);
     if($(this).hasClass("liked")){
-        $.post('http://localhost/instagram.yan-coder.com/core/ajax/unlike_request.php',{
+        $.post('/core/ajax/unlike_request.php',{
             unlike:postid,
             userid:userid
 
@@ -14,7 +14,7 @@ $(document).on("click",".like-button",function(){
             parentElement.find(".post__likes").html(data);
         })
     }else{
-        $.post('http://localhost/instagram.yan-coder.com/core/ajax/like_request.php',{
+        $.post('/core/ajax/like_request.php',{
             like:postid,
             userid:userid
 
