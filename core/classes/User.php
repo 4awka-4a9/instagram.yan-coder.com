@@ -101,7 +101,7 @@ class User
         if (in_array($fileInfo['mime'], $allowed)) {
 
             // $path_directory = $_SERVER['DOCUMENT_ROOT'] . "/instagram.yan-coder.com/media/stories/" . $userid;
-            $path_directory = dirname(__DIR__, 2) . "/media/posts/" . $userid;
+            $path_directory = dirname(__DIR__, 2) . "/media/stories/" . $userid;
 
             if (!file_exists($path_directory) && !is_dir($path_directory)) {
                 mkdir($path_directory, 0777, true);
@@ -138,14 +138,14 @@ class User
 
         if (in_array($fileInfo['mime'], $allowed)) {
 
-            $path_directory = $_SERVER['DOCUMENT_ROOT'] . "/instagram.yan-coder.com/media/posts/" . $userid;
+            $path_directory = dirname(__DIR__, 2) . "/media/posts/" . $userid;
 
             if (!file_exists($path_directory) && !is_dir($path_directory)) {
                 mkdir($path_directory, 0777, true);
             }
 
             $folder = "media/posts/" . $userid . "/" . $this->generate_filename(15) . ".jpg";
-            $file = $_SERVER['DOCUMENT_ROOT'] . "/instagram.yan-coder.com/" . $folder;
+            $file = dirname(__DIR__, 2) . "/" . $folder;
 
             if ($errors === 0) {
 

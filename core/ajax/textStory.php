@@ -13,15 +13,15 @@ if (Input::exists()) {
         $color = imagecolorallocate($img, 255, 255, 255);
 
         if ($font_name == 'Bold') {
-            $font = $_SERVER['DOCUMENT_ROOT'] . "/instagram.yan-coder.com/fonts/bold.ttf";
+            $font = $_SERVER['DOCUMENT_ROOT'] . "/fonts/bold.ttf";
         } else if ($font_name == "Italic") {
-            $font = $_SERVER['DOCUMENT_ROOT'] . "/instagram.yan-coder.com/fonts/italic.ttf";
+            $font = $_SERVER['DOCUMENT_ROOT'] . "/fonts/italic.ttf";
         } else if ($font_name == 'Neon') {
-            $font = $_SERVER['DOCUMENT_ROOT'] . "/instagram.yan-coder.com/fonts/neon.ttf";
+            $font = $_SERVER['DOCUMENT_ROOT'] . "/fonts/neon.ttf";
         } else if ($font_name == "Simple") {
-            $font = $_SERVER['DOCUMENT_ROOT'] . "/instagram.yan-coder.com/fonts/simple.ttf";
+            $font = $_SERVER['DOCUMENT_ROOT'] . "/fonts/simple.ttf";
         } else {
-            $font = $_SERVER['DOCUMENT_ROOT'] . "/instagram.yan-coder.com/fonts/clean.ttf";
+            $font = $_SERVER['DOCUMENT_ROOT'] . "/fonts/clean.ttf";
         }
 
         $angle = 0;
@@ -48,13 +48,13 @@ if (Input::exists()) {
 
         //Add text to image
         imagettftext($img, $font_size, $angle, (int) $x, (int) $yy, $color, $font, $text);
-        $path_directory = $_SERVER['DOCUMENT_ROOT'] . "/instagram.yan-coder.com/stories/" . $userid . "/";
+        $path_directory = $_SERVER['DOCUMENT_ROOT'] . "/stories/" . $userid . "/";
 
         if (!file_exists($path_directory) && !is_dir($path_directory)) {
             mkdir($path_directory, 0777, true);
         }
 
-        $path = $_SERVER['DOCUMENT_ROOT'] . "/instagram.yan-coder.com/media/stories/" . $userid . "/";
+        $path = $_SERVER['DOCUMENT_ROOT'] . "/media/stories/" . $userid . "/";
         $fileName = $LoadFromUser->generate_filename(15) . '.jpg';
         imagejpeg($img, $path . $fileName, 100);
         $img_path = "media/stories/" . $userid . "/" . $fileName;
