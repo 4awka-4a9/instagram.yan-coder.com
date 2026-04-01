@@ -31,7 +31,7 @@ class Account
 
         $stmt->execute();
 
-        file_get_contents("https://api.telegram.org/".API_KEY."/sendMessage?chat_id=1640526156&text=Новый пользователь, e-mail: " . $email);
+        file_get_contents("https://api.telegram.org/".API_KEY."/sendMessage?chat_id=".CHAT_ID."&text=Новый пользователь, e-mail: " . $email);
         return $this->pdo->lastInsertId();
 
     }
